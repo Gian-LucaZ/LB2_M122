@@ -1,28 +1,31 @@
 import json
 
-class SettingsManager:
 
+class SettingsManager:
     appsettings: str = ""
 
     def __init__(self, settings):
         self.appsettings = settings
 
-
-    def getAppsettings(self, key: str = "all"):
+    def get_appsettings(self, key: str = "all"):
         with open(self.appsettings) as jsonFile:
-            jsonObject = json.load(jsonFile)
+            json_object = json.load(jsonFile)
             jsonFile.close()
 
-        if(key == "all"):
-            return jsonObject
+        if key == "all":
+            return json_object
         else:
-            return jsonObject[key]
+            return json_object[key]
 
-    def updateAppsettings(self, dictionary: dict):
-        jsonObject = self.getAppsettings()
+    def update_appsettings(self, dictionary: dict):
+        json_object = self.get_appsettings()
         for key in dictionary.keys():
-            jsonObject[key] = dictionary[key]
+            json_object[key] = dictionary[key]
 
         with open(self.appsettings, "w") as jsonOutFile:
-            jsonOutFile.write(json.dumps(jsonObject))
+            jsonOutFile.write(json.dumps(json_object, indent=4))
             jsonOutFile.close()
+
+    @staticmethod
+    def to_dict(obj: object):
+        return obj.__dict__
