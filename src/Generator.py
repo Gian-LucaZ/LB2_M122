@@ -1,5 +1,6 @@
 import requests
 from SettingsManager import SettingsManager
+import Logger
 from src.PlaylistFeed import PlaylistFeed
 
 settings_manager = SettingsManager("Appsettings.json")
@@ -11,24 +12,28 @@ def main():
 
 def get_api_data() -> dict:
     results: dict = {}
-    for playlist in settings_manager.get_appsettings('playlists'):
-        playlist_tracks_response: dict = SettingsManager.to_dict(request(settings_manager.get_appsettings("urls")["playlistTracks"],
-                                                   {"id": playlist, "offset": "0", "limit": "100"}))
-        playlist_response: dict = SettingsManager.to_dict(request(settings_manager.get_appsettings("urls")["playlist"], {"id": playlist}))
+    apis: dict = settings_manager.proxy_get_appsettings("apis")
 
-        results.update({playlist: SettingsManager.to_dict(PlaylistFeed(playlist_response, playlist_tracks_response))})
+    for playlist in settings_manager.proxy_get_appsettings('playlists'):
+        playlist_tracks_response = request(apis["playlistTracks"], {"id": playlist, "offset": "0", "limit": "100"})
+        playlist_response = request(apis["playlist"], {"id": playlist})
+
+        results.update({playlist: SettingsManager.to_dict(PlaylistFeed(playlist_response,
+                                                                       playlist_tracks_response,
+                                                                       apis))})
 
     settings_manager.update_appsettings({"lastReq": results})
     return results
 
 
-def request(url: str, querystring: dict) -> object:
+def request(api: dict, querystring: dict) -> object:
     headers = {
-        "X-RapidAPI-Key": settings_manager.get_appsettings('X-RapidAPI-Key'),
-        "X-RapidAPI-Host": settings_manager.get_appsettings('X-RapidAPI-Host')
+        "X-RapidAPI-Key": settings_manager.proxy_get_appsettings('X-RapidAPI-Key'),
+        "X-RapidAPI-Host": settings_manager.proxy_get_appsettings('X-RapidAPI-Host')
     }
 
-    return requests.request("GET", url, headers=headers, params=querystring)
+    Logger.console_log("Requesting API response now!", Logger.LogLevel.Information)
+    return requests.request("GET", api["url"], headers=headers, params=querystring)
 
 
 main()

@@ -1,9 +1,13 @@
 {
     "X-RapidAPI-Key": "9d0c09ff94mshc55e308457b1585p16dde8jsn0c00cd06b91b",
     "X-RapidAPI-Host": "spotify23.p.rapidapi.com",
-    "urls": {
-        "playlist": "https://spotify23.p.rapidapi.com/playlist/",
-        "playlistTracks": "https://spotify23.p.rapidapi.com/playlist_tracks/"
+    "apis": {
+        "playlist": {
+            "url": "https://spotify23.p.rapidapi.com/playlist/"
+        },
+        "playlistTracks": {
+            "url": "https://spotify23.p.rapidapi.com/playlist_tracks/"
+        }
     },
     "playlists": [
         "HolyMoly",

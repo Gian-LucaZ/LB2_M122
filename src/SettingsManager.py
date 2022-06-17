@@ -1,30 +1,55 @@
 import json
+import Logger
 
 
 class SettingsManager:
-    appsettings: str = ""
+    appsettings: dict
 
     def __init__(self, settings):
-        self.appsettings = settings
+        self.appsettings_loc = settings
 
-    def get_appsettings(self, key: str = "all"):
-        with open(self.appsettings) as jsonFile:
-            json_object = json.load(jsonFile)
-            jsonFile.close()
+    def proxy_get_appsettings(self, key: str = "all"):
+
+        if self.appsettings is None:
+            self.get_appsettings()
 
         if key == "all":
-            return json_object
+            return self.appsettings
         else:
-            return json_object[key]
+            return self.appsettings[key]
+
+    def get_appsettings(self):
+        with open(self.appsettings_loc) as jsonFile:
+            try:
+                Logger.console_log("Reading appsettings.", Logger.LogLevel.Information)
+                json_object: dict = json.load(jsonFile)
+            except:
+                Logger.console_log("An error occurred while trying to read Appsettings.", Logger.LogLevel.Information)
+                exit(-1)
+
+            jsonFile.close()
+
+        self.appsettings = json_object
 
     def update_appsettings(self, dictionary: dict):
         json_object = self.get_appsettings()
+        json_object_backup = dict(json_object)
+
         for key in dictionary.keys():
             json_object[key] = dictionary[key]
 
-        with open(self.appsettings, "w") as jsonOutFile:
-            jsonOutFile.write(json.dumps(json_object, indent=4))
-            jsonOutFile.close()
+        Logger.console_log("Now updating Appsettings.", Logger.LogLevel.Information)
+
+        with open(self.appsettings, "w") as json_outFile:
+            try:
+                json_outFile.write(json.dumps(json_object, indent=4))
+                Logger.console_log("Successfully updated Appsettings", Logger.LogLevel.Information)
+            except:
+                Logger.console_log("Failed updating Appsettings.", Logger.LogLevel.Error)
+                Logger.console_log("Trying to rollback now.", Logger.LogLevel.Information)
+                json_outFile.write(json.dumps(json_object_backup, indent=4))
+
+            json_outFile.close()
 
     @staticmethod
     def to_dict(obj: object):
