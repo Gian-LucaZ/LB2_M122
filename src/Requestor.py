@@ -6,10 +6,6 @@ from src.PlaylistFeed import PlaylistFeed
 settings_manager = SettingsManager("Appsettings.json")
 
 
-def main():
-    api_data: dict = get_api_data()
-
-
 def get_api_data() -> dict:
     results: dict = {}
     apis: dict = settings_manager.proxy_get_appsettings("apis")
@@ -32,8 +28,5 @@ def request(api: dict, querystring: dict) -> object:
         "X-RapidAPI-Host": settings_manager.proxy_get_appsettings('X-RapidAPI-Host')
     }
 
-    Logger.console_log("Requesting API response now!", Logger.LogLevel.Information)
+    Logger.console_log("Requesting API response from (" + api["url"] + ") now!", Logger.LogLevel.Information)
     return requests.request("GET", api["url"], headers=headers, params=querystring)
-
-
-main()
