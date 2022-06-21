@@ -3,10 +3,10 @@ import Logger
 
 
 class SettingsManager:
-    appsettings: dict
 
     def __init__(self, settings):
         self.appsettings_loc = settings
+        self.appsettings = None
 
     def proxy_get_appsettings(self, key: str = "all"):
 
@@ -32,7 +32,7 @@ class SettingsManager:
         self.appsettings = json_object
 
     def update_appsettings(self, dictionary: dict):
-        json_object = self.get_appsettings()
+        json_object = self.proxy_get_appsettings()
         json_object_backup = dict(json_object)
 
         for key in dictionary.keys():
@@ -40,7 +40,7 @@ class SettingsManager:
 
         Logger.console_log("Now updating Appsettings.", Logger.LogLevel.Information)
 
-        with open(self.appsettings, "w") as json_outFile:
+        with open(self.appsettings_loc, "w") as json_outFile:
             try:
                 json_outFile.write(json.dumps(json_object, indent=4))
                 Logger.console_log("Successfully updated Appsettings", Logger.LogLevel.Information)
