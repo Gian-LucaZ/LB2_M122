@@ -22,6 +22,16 @@ def get_api_data() -> dict:
     return results
 
 
+def get_access_token(api):
+    headers: dict = api["headers"]
+
+    if api["requireSecret"]:
+        headers.update(
+            {settings_manager.proxy_get_appsettings("id"): settings_manager.proxy_get_appsettings("secret")})
+
+    requests.request(api["method"], api["url"], headers=headers, params=api["body"])
+
+
 def request(api: dict, querystring: dict) -> object:
     headers = {
         "X-RapidAPI-Key": settings_manager.proxy_get_appsettings('X-RapidAPI-Key'),
