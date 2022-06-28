@@ -1,42 +1,64 @@
+import base64
 import requests
-from SettingsManager import SettingsManager
+import six
+
 import Logger
-from src.PlaylistFeed import PlaylistFeed
+from SettingsManager import SettingsManager
 
-settings_manager = SettingsManager("Appsettings.json")
-
-
-def get_api_data() -> dict:
-    results: dict = {}
-    apis: dict = settings_manager.proxy_get_appsettings("apis")
-
-    for playlist in settings_manager.proxy_get_appsettings('playlists'):
-        playlist_tracks_response = request(apis["playlistTracks"], {"id": playlist, "offset": "0", "limit": "100"})
-        playlist_response = request(apis["playlist"], {"id": playlist})
-
-        results.update({playlist: SettingsManager.to_dict(PlaylistFeed(playlist_response,
-                                                                       playlist_tracks_response,
-                                                                       apis))})
-
-    settings_manager.update_appsettings({"lastReq": results})
-    return results
+sm = SettingsManager("config.json")
 
 
-def get_access_token(api):
-    headers: dict = api["headers"]
+def get(iid: str, ext: str, token, req: int = 0):
+    Logger.Information("Getting data for Item: %s" % iid)
 
-    if api["requireSecret"]:
-        headers.update(
-            {settings_manager.proxy_get_appsettings("id"): settings_manager.proxy_get_appsettings("secret")})
+    try:
+        response = requests.session().get(
+            sm.proxy_get_appsettings("apis")["api"] % ext % iid,
+            headers={"Authorization": token["token_type"] + " " + token["access_token"]},
+        )
+        response.raise_for_status()
+        playlist_info = response.json()
+        return playlist_info
+    except requests.exceptions.HTTPError as http_error:
+        Logger.Warning("Failed to get data: %s" % http_error)
 
-    requests.request(api["method"], api["url"], headers=headers, params=api["body"])
+        if req >= 10:
+            Logger.Error("Failed to get data 10 times shutting down now")
+            exit(-1)
+
+        return get(iid, ext, token, req + 1)
 
 
-def request(api: dict, querystring: dict) -> object:
-    headers = {
-        "X-RapidAPI-Key": settings_manager.proxy_get_appsettings('X-RapidAPI-Key'),
-        "X-RapidAPI-Host": settings_manager.proxy_get_appsettings('X-RapidAPI-Host')
-    }
+def request_access_token(req: int = 0):
+    payload = {"grant_type": "client_credentials"}
 
-    Logger.console_log("Requesting API response from (" + api["url"] + ") now!", Logger.LogLevel.Information)
-    return requests.request("GET", api["url"], headers=headers, params=querystring)
+    credentials = sm.proxy_get_appsettings("credentials")
+    headers = _get_authorization_headers(credentials["id"], credentials["secret"])
+
+    Logger.Information("Trying to get AccessToken")
+
+    try:
+        response = requests.session().post(
+            sm.proxy_get_appsettings("apis")["tokenApi"],
+            data=payload,
+            headers=headers,
+            verify=True
+        )
+        response.raise_for_status()
+        token_info = response.json()
+        return token_info
+    except requests.exceptions.HTTPError as http_error:
+        Logger.Warning("Failed to get AccessToken")
+
+        if req >= 10:
+            Logger.Error("Failed to get AccessToken 10 times shutting down now")
+            exit(-1)
+
+        return request_access_token(req + 1)
+
+
+def _get_authorization_headers(client_id, client_secret):
+    auth_header = base64.b64encode(
+        six.text_type(client_id + ":" + client_secret).encode("ascii")
+    )
+    return {"Authorization": "Basic %s" % auth_header.decode("ascii")}

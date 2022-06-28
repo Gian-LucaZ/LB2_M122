@@ -1,10 +1,12 @@
 from src import Requestor, Logger, PdfGenerator
 from SettingsManager import SettingsManager
 
-Logger.console_log("Starting Application", Logger.LogLevel.Information)
+Logger.Information("Starting Application")
 
-settings_manager = SettingsManager("Appsettings.json")
+result = Requestor.get(iid="0rEle8ZGZCOS0dpzi2FgZh", ext="playlists/%s", token=Requestor.request_access_token())
 
-old_data = settings_manager.proxy_get_appsettings()
-new_data = Requestor.get_api_data()
+tracks = result["tracks"]
+for track in tracks:
 
+
+Logger.Information("Finished Task")

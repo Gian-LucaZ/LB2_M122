@@ -21,10 +21,10 @@ class SettingsManager:
     def get_appsettings(self):
         with open(self.appsettings_loc) as jsonFile:
             try:
-                Logger.console_log("Reading appsettings.", Logger.LogLevel.Information)
+                Logger.Information("Reading appsettings.")
                 json_object: dict = json.load(jsonFile)
             except:
-                Logger.console_log("An error occurred while trying to read Appsettings.", Logger.LogLevel.Information)
+                Logger.Error("An error occurred while trying to read Appsettings.")
                 exit(-1)
 
             jsonFile.close()
@@ -38,15 +38,15 @@ class SettingsManager:
         for key in dictionary.keys():
             json_object[key] = dictionary[key]
 
-        Logger.console_log("Now updating Appsettings.", Logger.LogLevel.Information)
+        Logger.Information("Now updating Appsettings.")
 
         with open(self.appsettings_loc, "w") as json_outFile:
             try:
                 json_outFile.write(json.dumps(json_object, indent=4))
-                Logger.console_log("Successfully updated Appsettings", Logger.LogLevel.Information)
+                Logger.Information("Successfully updated Appsettings")
             except:
-                Logger.console_log("Failed updating Appsettings.", Logger.LogLevel.Error)
-                Logger.console_log("Trying to rollback now.", Logger.LogLevel.Information)
+                Logger.Error("Failed updating Appsettings.")
+                Logger.Information("Trying to rollback now.")
                 json_outFile.write(json.dumps(json_object_backup, indent=4))
 
             json_outFile.close()

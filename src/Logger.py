@@ -3,7 +3,19 @@ from colorama import Fore, Style
 from enum import Enum
 
 
-def console_log(message: str, log_level):
+def Error(message: str):
+    log(message, LogLevel.Error)
+
+
+def Information(message: str):
+    log(message, LogLevel.Information)
+
+
+def Warning(message: str):
+    log(message, LogLevel.Warning)
+
+
+def log(message: str, log_level):
     now = "[" + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "]"
 
     match log_level:

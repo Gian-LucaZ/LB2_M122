@@ -1,5 +1,15 @@
+from datetime import datetime
+
 from reportlab.pdfgen import canvas
 
-pdf = canvas.Canvas("Report.pdf")
-pdf.drawString(100, 750, "Moin Moin")
-pdf.save()
+
+def generate(data: dict):
+    title: str = "PlaylistFeed-%s.pdf" % datetime.now().strftime("%Y-%m-%d")
+
+    pdf = canvas.Canvas(title)
+    _generate_content(pdf, data)
+    pdf.save()
+
+
+def _generate_content(pdf, data: dict):
+    pdf.drawString(100, 750, "Moin Moin")

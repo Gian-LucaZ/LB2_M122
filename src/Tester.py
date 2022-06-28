@@ -1,6 +1,6 @@
-from src import Requestor
-from SettingsManager import SettingsManager
+from src import Requestor, Logger
 
-sm = SettingsManager("config.json")
 
-Requestor.get_access_token(sm.proxy_get_appsettings()["apis"]["tokenApi"])
+
+
+Logger.Information("Fertig!")
