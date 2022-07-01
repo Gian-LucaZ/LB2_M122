@@ -1,12 +1,20 @@
-from src import Requestor, Logger, PdfGenerator
+from src import Requestor, Logger
+from PdfGenerator import Generator
 from SettingsManager import SettingsManager
+from Playlist import Playlist
 
-Logger.Information("Starting Application")
+Logger.Information("Starting Task")
 
-result = Requestor.get(iid="0rEle8ZGZCOS0dpzi2FgZh", ext="playlists/%s", token=Requestor.request_access_token())
+sm = SettingsManager("config.json")
+token = Requestor.request_access_token()
+responses: list = []
 
-tracks = result["tracks"]
-for track in tracks:
+for playlist in sm.proxy_get_appsettings("playlists"):
+    responses.append(Playlist(Requestor.get(iid=playlist,
+                                            ext="playlists/%s",
+                                            token=token)))
 
+generator = Generator()
+generator.generate(responses)
 
 Logger.Information("Finished Task")
