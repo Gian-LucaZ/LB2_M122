@@ -1,1 +1,14 @@
-[2022-07-05 14:55:35] Debug: Finished Task
+[2022-07-05 15:03:30] Debug: Starting Task
+[2022-07-05 15:03:30] Debug: Reading appsettings.
+[2022-07-05 15:03:30] Debug: Trying to get AccessToken
+[2022-07-05 15:03:31] Debug: Getting data for Item: 0rEle8ZGZCOS0dpzi2FgZh
+[2022-07-05 15:03:31] Debug: Now creating report for r
+[2022-07-05 15:03:45] Debug: Finished creating report for r
+[2022-07-05 15:03:58] Debug: Mail Playlistfeed for r (2022-07-05 15:03:45) sent.
+[2022-07-05 15:03:58] Debug: Pushing ./PlaylistFeed-r-2022-07-05.pdf to gianzwahlen.bplaced.net
+[2022-07-05 15:04:11] Debug: Getting data for Item: 37i9dQZF1DX0pH2SQMRXnC
+[2022-07-05 15:04:11] Debug: Now creating report for Hardstyle Bangers
+[2022-07-05 15:04:33] Debug: Finished creating report for Hardstyle Bangers
+[2022-07-05 15:04:47] Debug: Mail Playlistfeed for Hardstyle Bangers (2022-07-05 15:04:33) sent.
+[2022-07-05 15:04:47] Debug: Pushing ./PlaylistFeed-Hardstyle Bangers-2022-07-05.pdf to gianzwahlen.bplaced.net
+[2022-07-05 15:05:05] Debug: Finished Task
