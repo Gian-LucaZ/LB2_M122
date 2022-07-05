@@ -1,8 +1,8 @@
 from datetime import datetime
 from reportlab.pdfgen import canvas
 from reportlab.pdfgen.canvas import Canvas
-from Playlist import Playlist, Track
-from src import Logger
+from src.typedefinitions.Playlist import Playlist, Track
+from src.utilities import Logger
 
 
 class Point:
@@ -12,7 +12,7 @@ class Point:
 
 
 class Rectangle:
-    def __init__(self, width: int, height: int, location: Point):
+    def __init__(self, width: int, height: int, location: Point) -> object:
         self.height = height
         self.width = width
         self.location = location

@@ -1,7 +1,7 @@
-from src import Requestor, Logger
-from PdfGenerator import Generator
-from SettingsManager import SettingsManager
-from Playlist import Playlist
+from src.utilities import Requestor, Logger
+from src.utilities.PdfGenerator import Generator
+from src.utilities.SettingsManager import SettingsManager
+from src.typedefinitions.Playlist import Playlist
 
 Logger.Information("Starting Task")
 

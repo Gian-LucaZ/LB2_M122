@@ -1,5 +1,5 @@
 import json
-import Logger
+from src.utilities import Logger
 
 
 class SettingsManager:

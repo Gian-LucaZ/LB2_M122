@@ -1,5 +1,6 @@
 import json
 
+
 class PlaylistFeed:
 
     def __init__(self, playlist, tracks, keys: dict):
