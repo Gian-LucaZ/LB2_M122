@@ -1,9 +1,8 @@
 import base64
 import requests
 import six
-
-import Logger
-from SettingsManager import SettingsManager
+from src.utilities import Logger
+from src.utilities.SettingsManager import SettingsManager
 
 sm = SettingsManager("config.json")
 

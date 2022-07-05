@@ -29,11 +29,7 @@ class Generator:
     def __init__(self):
         self.pdf: Canvas = None
 
-    def generate(self, playlists: list):
-        for playlist in playlists:
-            self._generate_content(playlist)
-
-    def _generate_content(self, playlist: Playlist):
+    def generate(self, playlist: Playlist):
         Logger.Information("Now creating report for %s" % playlist.name)
         title: str = "PlaylistFeed-%s.pdf" % (playlist.name + "-" + datetime.now().strftime("%Y-%m-%d"))
 
@@ -42,6 +38,7 @@ class Generator:
         self.pdf.save()
 
         Logger.Information("Finished creating report for %s" % playlist.name)
+        return title
 
     def _generate_block(self, playlist: Playlist):
         headerrect = self._generate_block_header(playlist)
