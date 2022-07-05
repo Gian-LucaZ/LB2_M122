@@ -2,7 +2,7 @@
 
 ## Die API
 
-Die API aufgrund welcher ein Report generiert werden soll ist eine [Spotify-API](https://rapidapi.com/Glavier/api/spotify23/). Auf dieser können wir Beliebeige Daten aus der Spotify-Datenbank erreichen und im Wöchentlichen Report ausgeben.
+Die API aufgrund welcher ein Report generiert werden soll ist eine [Spotify-API](https://api.spotify.com/v1/). Auf dieser können wir Beliebeige Daten aus der Spotify-Datenbank erreichen und im Wöchentlichen Report ausgeben.
 
 ## Der Report
 
@@ -17,8 +17,15 @@ Der Report soll für jede Angewählte Playlist einen einzelnen kleinen Feed bein
 
 Der Report soll folgendermassen aussehen. Das ganze wird in verschiedene Sektionen, nach Playlist aufgeteilt. Jede Sektion ist mit Playlistvorschau unnd Namen versehen.
 
-Vorgeschlagene Tracks werden mit Titel und Vorschaubild angezeigt. Dazu zeigt der Report uns noch die 10 neusten Tracks
+Vorgeschlagene Tracks werden mit Titel und Vorschaubild angezeigt. Dazu zeigt der Report uns noch die 10 neusten Tracks. Die Playlist, die Tracks und auch der Ersteller der Playlist sind Clickbar und verlinkt.
 
 Funktioniert aber nur für die ersten 100 songs!
 
-Hier Das [Mockup](https://Throw_new_NotImplementedError)
+Hier Das [Ergebnis](PlaylistFeed-r-2022-07-05.pdf)
+
+## Rückblick und Programmbeschrieb
+
+### Programm
+
+Die gesammte Programm ist über ein Json parametrierbar. Da können wir auch unsere PLaylists angeben. Für jede angegebene Playlist wird ein einzelner Report versendet.
+

@@ -1,8 +1,0 @@
-[2022-07-05 15:31:00] Debug: Starting Task
-[2022-07-05 15:31:00] Debug: Reading appsettings.
-[2022-07-05 15:31:00] Debug: Trying to get AccessToken
-[2022-07-05 15:31:00] Debug: Getting data for Item: 0rEle8ZGZCOS0dpzi2FgZh
-[2022-07-05 15:31:00] Debug: Now creating report for r
-[2022-07-05 15:31:03] Debug: Finished creating report for r
-[2022-07-05 15:31:07] Debug: Mail Playlistfeed for r (2022-07-05 15:31:03) sent.
-[2022-07-05 15:31:07] Debug: Pushing ./PlaylistFeed-r-2022-07-05.pdf to gianzwahlen.bplaced.net
