@@ -17,6 +17,8 @@ Der Report soll für jede Angewählte Playlist einen einzelnen kleinen Feed bein
 
 Der Report soll folgendermassen aussehen. Das ganze wird in verschiedene Sektionen, nach Playlist aufgeteilt. Jede Sektion ist mit Playlistvorschau unnd Namen versehen.
 
-Vorgeschlagene Tracks werden mit Titel, Interpret und Vorschaubild angezeigt. Beim Veränderungsfeed ist dazu auch der Benutzer einsehbar, welcher den Track hinzugefügt hat. Wurde nichts verändert, so wird dies mit einem Banner angezeigt.
+Vorgeschlagene Tracks werden mit Titel und Vorschaubild angezeigt. Dazu zeigt der Report uns noch die 10 neusten Tracks
+
+Funktioniert aber nur für die ersten 100 songs!
 
 Hier Das [Mockup](https://Throw_new_NotImplementedError)

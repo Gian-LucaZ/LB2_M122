@@ -1,4 +1,6 @@
 from datetime import datetime
+from random import randrange
+
 from reportlab.pdfgen import canvas
 from reportlab.pdfgen.canvas import Canvas
 from src.typedefinitions.Playlist import Playlist, Track
@@ -42,7 +44,20 @@ class Generator:
 
     def _generate_block(self, playlist: Playlist):
         headerrect = self._generate_block_header(playlist)
-        self._generate_block_info(playlist.tracks, "Alle Tracks", headerrect)
+        tracks = playlist.tracks
+
+        if tracks.__len__() >= 10:
+            rec = []
+            for x in range(5):
+                rec.append(tracks[randrange(tracks.__len__() - 1)])
+            rect = self._generate_block_info(rec, "Vorgeschlagene Tracks", headerrect)
+
+            rec = []
+            for x in range(10):
+                rec.append(tracks[tracks.__len__() - x - 1])
+            self._generate_block_info(rec, "Neuste Tracks", rect)
+        else:
+            self._generate_block_info(tracks, "Alle Tracks", headerrect)
 
     def _generate_block_info(self, tracks: list, topic: str, headerrect: Rectangle):
         block_tl = Point(headerrect.location.X, headerrect.location.Y - self._block_padding)
@@ -59,6 +74,8 @@ class Generator:
             drawpoint.Y -= self._block_padding
             self._generate_block_track(track, drawpoint, block_wdt)
             drawpoint.Y -= self._block_padding
+
+        return Rectangle(headerrect.width, headerrect.location.Y - drawpoint.Y, Point(headerrect.location.X, drawpoint.Y))
 
     def _generate_block_track(self, track: Track, drawpoint: Point, wdt: int):
         image_size = 25
