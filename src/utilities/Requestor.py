@@ -1,10 +1,7 @@
 import base64
 import requests
 import six
-from src.utilities import Logger
-from src.utilities.SettingsManager import SettingsManager
-
-sm = SettingsManager("config.json")
+from src.utilities import Logger, SettingsManager
 
 
 def get(iid: str, ext: str, token, req: int = 0):
@@ -12,7 +9,7 @@ def get(iid: str, ext: str, token, req: int = 0):
 
     try:
         response = requests.session().get(
-            sm.proxy_get_appsettings("apis")["api"] % ext % iid,
+            SettingsManager.proxy_get_appsettings("apis")["api"] % ext % iid,
             headers={"Authorization": token["token_type"] + " " + token["access_token"]},
         )
         response.raise_for_status()
@@ -31,14 +28,14 @@ def get(iid: str, ext: str, token, req: int = 0):
 def request_access_token(req: int = 0):
     payload = {"grant_type": "client_credentials"}
 
-    credentials = sm.proxy_get_appsettings("credentials")
+    credentials = SettingsManager.proxy_get_appsettings("credentials")
     headers = _get_authorization_headers(credentials["id"], credentials["secret"])
 
     Logger.Information("Trying to get AccessToken")
 
     try:
         response = requests.session().post(
-            sm.proxy_get_appsettings("apis")["tokenApi"],
+            SettingsManager.proxy_get_appsettings("apis")["tokenApi"],
             data=payload,
             headers=headers,
             verify=True
