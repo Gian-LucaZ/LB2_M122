@@ -9,7 +9,7 @@ def get(iid: str, ext: str, token, req: int = 0):
 
     try:
         response = requests.session().get(
-            SettingsManager.proxy_get_appsettings("apis")["api"] % ext % iid,
+            SettingsManager.proxy_get_appsettings("apis")["api"] % ext + "/%s" % iid,
             headers={"Authorization": token["token_type"] + " " + token["access_token"]},
         )
         response.raise_for_status()

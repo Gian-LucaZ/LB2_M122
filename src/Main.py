@@ -12,7 +12,7 @@ generator = Generator()
 
 for id in SettingsManager.proxy_get_appsettings("playlists"):
     playlist: Playlist = Playlist(Requestor.get(iid=id,
-                                                ext="playlists/%s",
+                                                ext="playlists",
                                                 token=token))
     filename: str = generator.generate(playlist)
     mail = Mail("Playlistfeed for " + playlist.name + " (%s)" % datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
